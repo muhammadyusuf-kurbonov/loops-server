@@ -154,7 +154,7 @@ volumes:
     storage:
     bootstrapCache:
     redis-data:
-    redis-data:
+    mysqldb-9-data:
 
 networks:
   loops-network:
