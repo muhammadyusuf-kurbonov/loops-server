@@ -12,7 +12,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
-      - ./mysqldb-9-data:/var/lib/mysql
+      - mysqldb-9-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
       interval: 10s
@@ -32,7 +32,7 @@ services:
       #REDIS_ARGS: "--save 3600 1000 --appendonly yes --requirepass ${REDIS_PASSWORD}"  ## Save Redis to disk every hour & Write the logs to disk using AOF
       REDIS_ARGS: "--appendonly yes --requirepass ${REDIS_PASSWORD}"
     volumes:
-      - ./redis-data:/data
+      - redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -71,8 +71,8 @@ services:
       AUTORUN_LARAVEL_VIEW_CACHE: "true"
       AUTORUN_LARAVEL_CONFIG_CACHE: "true"
     volumes:
-      - ./storage:/var/www/html/storage
-      - ./bootstrap/cache:/var/www/html/bootstrap/cache
+      - .storage:/var/www/html/storage
+      - bootstrapCache:/var/www/html/bootstrap/cache
     depends_on:
       - mysqldb
       - redis
@@ -102,8 +102,8 @@ services:
       PHP_UPLOAD_MAX_FILE_SIZE: "500M"
       PHP_OPCACHE_ENABLE: "1"
     volumes:
-      - ./storage:/var/www/html/storage
-      - ./bootstrap/cache:/var/www/html/bootstrap/cache
+      - storage:/var/www/html/storage
+      - bootstrapCache:/var/www/html/bootstrap/cache
     depends_on:
       - mysqldb
       - redis
@@ -139,8 +139,8 @@ services:
       PHP_UPLOAD_MAX_FILE_SIZE: "500M"
       PHP_OPCACHE_ENABLE: "1"
     volumes:
-      - ./storage:/var/www/html/storage
-      - ./bootstrap/cache:/var/www/html/bootstrap/cache
+      - storage:/var/www/html/storage
+      - bootstrapCache:/var/www/html/bootstrap/cache
     depends_on:
       - mysqldb
       - redis
@@ -149,6 +149,12 @@ services:
       start_period: 10s
     networks:
       - loops-network
+
+volumes:
+    storage:
+    bootstrapCache:
+    redis-data:
+    redis-data:
 
 networks:
   loops-network:
