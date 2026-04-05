@@ -38,7 +38,7 @@ RUN install-php-extensions \
     ffi \
     xml \
     zip
-
+USER www-data
 # Copy application files
 COPY --chown=www-data:www-data . /var/www/html
 
@@ -57,11 +57,10 @@ COPY --from=node /usr/local/lib /usr/local/lib
 
 # Install npm dependencies and build assets
 ENV NODE_ENV="production"
-RUN npm install 
+RUN npm ci
 RUN npm run build
 
 # Switch back to www-data user
-USER www-data
 
 # Expose port 8080 (default for serversideup/php)
 EXPOSE 8080
